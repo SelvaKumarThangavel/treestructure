@@ -12,16 +12,8 @@ export class TreedataComponent implements OnInit {
   @Input() public parentData: any[] = [];
   @Input() public cols: any[] = [];
   @Input() public cols1: any[] = [];
-  @Input() public leaf: boolean;
 
-  /* public amount: any[] = [];
-
-  amountList = [
-    { label: '10000', value: '10000' },
-    { label: '45120', value: '45120' },
-    { label: '98574', value: '98574' },
-    { label: '85000', value: '85000'}
-  ]; */
+  public isChildrenAvailable: boolean = null;
 
   constructor() {
   }
@@ -29,8 +21,35 @@ export class TreedataComponent implements OnInit {
   ngOnInit() {
   }
 
-  nodeSelect(event){
-    console.log(event)
+  click(rowData) {
+    for (var k = 0; k < this.parentData.length; k++) {
+      var count = 0;
+      for (var s = 0; s < this.parentData[k].children.length; s++) {
+        var d = this.parentData[k].children[s]
+        if(d.children != undefined){
+          for (var q = 0; q < d.children.length; q++) {
+            //console.log(d.children)
+            var child = d.children[q].data.name;
+            if (child == rowData.name || count > 0) {
+              this.isChildrenAvailable = false
+              count ++;
+            }
+            else {
+              this.isChildrenAvailable = true
+            }
+          }
+        }else{
+          var child = d.data.name; 
+          if (child == rowData.name || count > 0) {
+              this.isChildrenAvailable = false
+              count ++;
+            }
+            else {
+              this.isChildrenAvailable = true
+              
+            }
+        }
+      }
+    }
   }
-
 }

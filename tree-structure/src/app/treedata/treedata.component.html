@@ -1,7 +1,7 @@
 <h3>Dynamic Tree Table</h3>
-<p-treeTable [value]="parentData" [columns]="cols" (onNodeSelect)="nodeSelect($event)">
-    <!-- [frozenColumns]="cols1" [scrollable]="true" scrollHeight="200px" frozenWidth="200px" -->
-     <!-- <ng-template pTemplate="colgroup" let-columns>
+<p-treeTable [value]="parentData" [columns]="cols">
+    <!--  [frozenColumns]="cols1" [scrollable]="true" scrollHeight="200px" frozenWidth="200px" -->
+    <!-- <ng-template pTemplate="colgroup" let-columns>
             <colgroup>
                 <col *ngFor="let col of frozenColumns" style="width:240px">
             </colgroup>
@@ -15,25 +15,18 @@
     </ng-template>
     <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
         <tr>
-            <td *ngFor="let col of columns; let i = index" [ttEditableColumn]="rowData" [ngClass]="{'ui-toggler-column': i === 0}">
+            <td *ngFor="let col of columns; let i = index" ttEditableColumn
+                [ngClass]="{'ui-toggler-column': i === 0}">
                 <p-treeTableToggler [rowNode]="rowNode" *ngIf="i === 0"></p-treeTableToggler>
                 {{rowData[col.field]}}
-                
-                 <!-- <p-treeTableCellEditor *ngIf="i === 0">
+
+                <p-treeTableCellEditor *ngIf="i >= 1" (click)="click(rowData)">
                     <ng-template pTemplate="input">
-                        <p-dropdown [options]="amountList" [(ngModel)]="rowData[col.field]" placeholder="Select amount"></p-dropdown>
+                        <input pInputText type="text" [(ngModel)]="rowData[col.field]"
+                            [ngStyle]="{'width': i == 0 ? '90%': '100%'}" [disabled]="isChildrenAvailable">
                     </ng-template>
-                </p-treeTableCellEditor>-->
-
-                <p-treeTableCellEditor *ngIf="i >= 1">
-                    <!-- {{rowData[col.field]}} -->
-                     <ng-template pTemplate="input">
-                         <input pInputText type="text" 
-                            [ngStyle]="{'width': i == 0 ? '90%': '100%'}"> 
-                    </ng-template>
-                   <!-- <ng-template pTemplate="output">{{rowData[col.field]}}</ng-template> -->
-                </p-treeTableCellEditor> 
-
+                </p-treeTableCellEditor>
+                <!-- <ng-template pTemplate="output">{{rowData[col.field]}}</ng-template> -->
             </td>
         </tr>
     </ng-template>
