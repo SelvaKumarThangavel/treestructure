@@ -15,17 +15,21 @@
     </ng-template>
     <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
         <tr>
-            <td *ngFor="let col of columns; let i = index" ttEditableColumn
-                [ngClass]="{'ui-toggler-column': i === 0}">
+            <td *ngFor="let col of columns; let i = index" [ngClass]="{'ui-toggler-column': i === 0}">
                 <p-treeTableToggler [rowNode]="rowNode" *ngIf="i === 0"></p-treeTableToggler>
                 {{rowData[col.field]}}
 
-                <p-treeTableCellEditor *ngIf="i >= 1" (click)="click(rowData)">
+                <input pInputText type="text" *ngIf="i >= 1 || click(rowData)"
+                    [ngStyle]="{'width': i == 0 ? '90%': '100%'}" [disabled]="isChildrenAvailable" maxlength="5">
+
+                <!-- 
+                    {{rowData[col.field]}}
+                    <p-treeTableCellEditor *ngIf="i >= 1" (click)="click(rowData)">
                     <ng-template pTemplate="input">
                         <input pInputText type="text" [(ngModel)]="rowData[col.field]"
                             [ngStyle]="{'width': i == 0 ? '90%': '100%'}" [disabled]="isChildrenAvailable">
                     </ng-template>
-                </p-treeTableCellEditor>
+                </p-treeTableCellEditor> -->
                 <!-- <ng-template pTemplate="output">{{rowData[col.field]}}</ng-template> -->
             </td>
         </tr>

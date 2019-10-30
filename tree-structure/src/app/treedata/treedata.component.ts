@@ -12,7 +12,6 @@ export class TreedataComponent implements OnInit {
   @Input() public parentData: any[] = [];
   @Input() public cols: any[] = [];
   @Input() public cols1: any[] = [];
-
   public isChildrenAvailable: boolean = null;
 
   constructor() {
@@ -26,28 +25,28 @@ export class TreedataComponent implements OnInit {
       var count = 0;
       for (var s = 0; s < this.parentData[k].children.length; s++) {
         var d = this.parentData[k].children[s]
-        if(d.children != undefined){
+        if (d.children != undefined) {
           for (var q = 0; q < d.children.length; q++) {
             //console.log(d.children)
             var child = d.children[q].data.name;
             if (child == rowData.name || count > 0) {
               this.isChildrenAvailable = false
-              count ++;
+              count++;
             }
             else {
               this.isChildrenAvailable = true
             }
           }
-        }else{
-          var child = d.data.name; 
+        } else {
+          var child = d.data.name;
           if (child == rowData.name || count > 0) {
-              this.isChildrenAvailable = false
-              count ++;
-            }
-            else {
-              this.isChildrenAvailable = true
-              
-            }
+            this.isChildrenAvailable = false
+            count++;
+          }
+          else {
+            this.isChildrenAvailable = true
+
+          }
         }
       }
     }
