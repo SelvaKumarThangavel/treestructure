@@ -12,6 +12,7 @@ import {TreeTableModule} from 'primeng/treetable';
 import { HttpClientModule } from '@angular/common/http'
 import {  TreeModule } from 'primeng/tree';
 import {DropdownModule} from 'primeng/dropdown';
+import {InputTextModule} from 'primeng/inputtext';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {DropdownModule} from 'primeng/dropdown';
     TreeTableModule,
     HttpClientModule,
     TreeModule,
-    DropdownModule
+    DropdownModule,
+    InputTextModule
   ],
   providers: [],
   bootstrap: [AppComponent]
