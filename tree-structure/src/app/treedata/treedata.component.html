@@ -20,7 +20,11 @@
                 {{rowData[col.field]}}
 
                 <input pInputText type="text" *ngIf="i >= 1 || click(rowData)"
-                    [ngStyle]="{'width': i == 0 ? '90%': '100%'}" [disabled]="isChildrenAvailable" maxlength="5">
+                    [ngStyle]="{'width': i == 0 ? '90%': '100%'}" [disabled]="isChildrenAvailable" maxlength="5"
+                    [ngClass]="{
+                        'positive' : isChildrenAvailable == false,
+                        'negative' : isChildrenAvailable == true
+                     }">
 
                 <!-- 
                     {{rowData[col.field]}}

@@ -9,6 +9,8 @@
 <!--  below block can be enabled for subchildren - starts -->
 <h4>Age:</h4>
 <p-multiSelect [options]="ageList" [(ngModel)]="selectedAge" [panelStyle]="{minWidth:'12em'}"></p-multiSelect> 
+<h4>Child:</h4>
+<p-multiSelect [options]="childList" [(ngModel)]="selectedChild" [panelStyle]="{minWidth:'12em'}"></p-multiSelect> 
 <!-- below block can be enabled for subchildren - ends -->
 <!--  <h4>Amount:</h4>
 <p-multiSelect [options]="amountList" [(ngModel)]="amount" [panelStyle]="{minWidth:'12em'}"></p-multiSelect> -->
@@ -17,6 +19,6 @@
 <button pButton type="button" label="Click" (click)="getSelectedData()"></button>
 <br /><br />
 <ng-container *ngIf="show">
-     <app-treedata [parentData]="selectedData" [cols]="headerCols" [cols1]="headerCols1" [leaf]="leaf"></app-treedata>
+     <app-treedata [parentData]="selectedData" [cols]="headerCols" [cols1]="headerCols1"></app-treedata>
 </ng-container>
 <router-outlet></router-outlet>

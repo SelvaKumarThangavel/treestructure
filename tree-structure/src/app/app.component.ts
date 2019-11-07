@@ -21,6 +21,10 @@ export class AppComponent implements OnInit {
   public selectedHeader: any[] = [];
   public leaf: boolean = false;
 
+  public selectedChild: any[] =[];
+  public selectedChild1: any[] =[];
+  public selectedAgeSubChildren: any[] =[];
+  
   //To show the tree table based on button click
   public show: boolean = false;
   public buttonName: any = 'Show';
@@ -34,10 +38,8 @@ export class AppComponent implements OnInit {
 
   headerList = [
     { label: 'Name', value: 1, name: 'name' },
-    { label: 'Value', value: 2, name: 'value' },
-    { label: 'Header 3', value: 3, name: 'header3' },
-    { label: 'Header 4', value: 4, name: 'header4' },
-    { label: 'Header 5', value: 5, name: 'header5' }
+    { label: 'Value 1', value: 2, name: 'value1' },
+    { label: 'Value 2', value: 3, name: 'value2' }
   ];
 
   headerList1 = [
@@ -65,6 +67,12 @@ export class AppComponent implements OnInit {
   ];
   //below block can be enabled for subchildren - ends
 
+  childList = [
+    { label: 'Child 1', value: 1 },
+    { label: 'Child 2', value: 2 },
+    { label: 'Child 3', value: 3 },
+    { label: 'Child 4', value: 4 }
+  ];
 
   constructor(private router: Router) {
   }
@@ -100,7 +108,37 @@ export class AppComponent implements OnInit {
     }
     console.log(this.selectedOccupationFinal);
 
-    if (this.selectedOccupation.length > 0 && this.selectedCategory.length > 0 && this.selectedAge.length > 0) {
+    if (this.selectedOccupation.length > 0 && this.selectedCategory.length > 0 && this.selectedAge.length > 0 && this.selectedChild.length > 0) {
+      for (let catlist of this.categoryList) {
+        for (let i = 0; i < this.selectedCategory.length; i++) {
+          if (catlist.value == this.selectedCategory[i]) {
+            this.selectedCategory1.push({
+              name: catlist.label
+            })
+          }
+        }
+      }
+    }else if(this.selectedOccupation.length > 0 && this.selectedCategory.length > 0 && this.selectedChild.length > 0){
+      for (let catlist of this.categoryList) {
+        for (let i = 0; i < this.selectedCategory.length; i++) {
+          if (catlist.value == this.selectedCategory[i]) {
+            this.selectedCategory1.push({
+              name: catlist.label
+            })
+          }
+        }
+      }
+    }else if(this.selectedOccupation.length > 0 && this.selectedCategory.length > 0 && this.selectedAge.length > 0){
+      for (let catlist of this.categoryList) {
+        for (let i = 0; i < this.selectedCategory.length; i++) {
+          if (catlist.value == this.selectedCategory[i]) {
+            this.selectedCategory1.push({
+              name: catlist.label
+            })
+          }
+        }
+      }
+    }else if(this.selectedCategory.length > 0 && this.selectedAge.length > 0 && this.selectedChild.length > 0){
       for (let catlist of this.categoryList) {
         for (let i = 0; i < this.selectedCategory.length; i++) {
           if (catlist.value == this.selectedCategory[i]) {
@@ -131,47 +169,120 @@ export class AppComponent implements OnInit {
         }
       }
     }
-    //console.log(this.selectedCategory1);
+    console.log(this.selectedCategory1);
     
-    if (this.selectedAge.length > 0) {
+    if (this.selectedAge.length > 0 && this.selectedChild.length > 0) {
       for (let age of this.ageList) {
         for (let i = 0; i < this.selectedAge.length; i++) {
           if (age.value == this.selectedAge[i]) {
-            this.selectedAge1.push({ data: { name: age.label } })
+            this.selectedAge1.push( { name: age.label } )
+          }
+        }
+      }
+    }else{
+      for (let age of this.ageList) {
+        for (let i = 0; i < this.selectedAge.length; i++) {
+          if (age.value == this.selectedAge[i]) {
+            this.selectedAge1.push( {data:{ name: age.label } })
           }
         }
       }
     }
-    //console.log(this.selectedAge1);
+    console.log(this.selectedAge1);
 
-    //forming json by selecting all 3 fields
-    if(this.selectedOccupationFinal.length > 0  && this.selectedCategory1.length > 0 && this.selectedAge1.length > 0){
+    if (this.selectedChild.length > 0) {
+      for (let child of this.childList) {
+        for (let i = 0; i < this.selectedChild.length; i++) {
+          if (child.value == this.selectedChild[i]) {
+            this.selectedChild1.push({ data: { name: child.label } })
+          }
+        }
+      }
+    }
+    console.log(this.selectedChild1);
+    //forming json by selecting all 4 fields
+    if(this.selectedOccupationFinal.length > 0  && this.selectedCategory1.length > 0 && this.selectedAge1.length > 0 && this.selectedChild1.length > 0){
+      for(let j = 0; j < this.selectedAge1.length; j++){
+        this.selectedAgeSubChildren.push({ data: this.selectedAge1[j], children: this.selectedChild1, expanded: true })
+      }
       for (let i = 0; i < this.selectedCategory1.length; i++) {
-        this.selectedCategorySubChildren.push({ data: this.selectedCategory1[i], children: this.selectedAge1 })
+        this.selectedCategorySubChildren.push({ data: this.selectedCategory1[i], children: this.selectedAgeSubChildren, expanded: true })
       }
       for (let m = 0; m < this.selectedOccupationFinal.length; m++) {
-        this.selectedData.push({ data: this.selectedOccupationFinal[m], children: this.selectedCategorySubChildren })
+        this.selectedData.push({ data: this.selectedOccupationFinal[m], children: this.selectedCategorySubChildren, expanded: true })
+      }
+    }
+    //forming json by selecting 1, 2 and 3 field
+    else if(this.selectedOccupationFinal.length > 0  && this.selectedCategory1.length > 0 && this.selectedAge1.length > 0){
+      for (let i = 0; i < this.selectedCategory1.length; i++) {
+        this.selectedCategorySubChildren.push({ data: this.selectedCategory1[i], children: this.selectedAge1, expanded: true })
+      }
+      for (let m = 0; m < this.selectedOccupationFinal.length; m++) {
+        this.selectedData.push({ data: this.selectedOccupationFinal[m], children: this.selectedCategorySubChildren, expanded: true })
+      }
+    }
+    //forming json by selecting 1, 2 and 4 field
+    else if(this.selectedOccupationFinal.length > 0  && this.selectedCategory1.length > 0 && this.selectedChild1.length > 0){
+      for (let i = 0; i < this.selectedCategory1.length; i++) {
+        this.selectedCategorySubChildren.push({ data: this.selectedCategory1[i], children: this.selectedChild1, expanded: true })
+      }
+      for (let m = 0; m < this.selectedOccupationFinal.length; m++) {
+        this.selectedData.push({ data: this.selectedOccupationFinal[m], children: this.selectedCategorySubChildren, expanded: true })
+      }
+    }
+    //forming json by selecting 1, 3 and 4 field
+    else if(this.selectedOccupationFinal.length > 0  && this.selectedAge1.length > 0 && this.selectedChild1.length > 0){
+      for (let i = 0; i < this.selectedAge1.length; i++) {
+        this.selectedAgeSubChildren.push({ data: this.selectedAge1[i], children: this.selectedChild1, expanded: true })
+      }
+      for (let m = 0; m < this.selectedOccupationFinal.length; m++) {
+        this.selectedData.push({ data: this.selectedOccupationFinal[m], children: this.selectedAgeSubChildren, expanded: true })
+      }
+    }
+    //forming json by selecting 2, 3 and 4 field
+    else if(this.selectedCategory1.length > 0 && this.selectedAge1.length > 0 && this.selectedChild1.length > 0){
+      for (let i = 0; i < this.selectedAge1.length; i++) {
+        this.selectedAgeSubChildren.push({ data: this.selectedAge1[i], children: this.selectedChild1, expanded: true })
+      }
+      for (let i = 0; i < this.selectedCategory1.length; i++) {
+        this.selectedData.push({ data: this.selectedCategory1[i], children: this.selectedAgeSubChildren, expanded: true })
       }
     }
     //forming json by selecting 1 and 2 field
     else if(this.selectedOccupationFinal.length > 0  && this.selectedCategory1.length > 0){
       for (let m = 0; m < this.selectedOccupationFinal.length; m++) {
-        this.selectedData.push({ data: this.selectedOccupationFinal[m], children: this.selectedCategory1 })
+        this.selectedData.push({ data: this.selectedOccupationFinal[m], children: this.selectedCategory1, expanded: true })
       }
     }
     //forming json by selecting 2 and 3 field
     else if(this.selectedCategory1.length > 0 && this.selectedAge1.length > 0){
       for (let i = 0; i < this.selectedCategory1.length; i++) {
-        this.selectedData.push({ data: this.selectedCategory1[i], children: this.selectedAge1 })
+        this.selectedData.push({ data: this.selectedCategory1[i], children: this.selectedAge1, expanded: true })
       }
     }
     //forming json by selecting 1 and 3 field
     else if(this.selectedOccupationFinal.length > 0 && this.selectedAge1.length > 0){
       for (let m = 0; m < this.selectedOccupationFinal.length; m++) {
-        this.selectedData.push({ data: this.selectedOccupationFinal[m], children: this.selectedAge1 })
+        this.selectedData.push({ data: this.selectedOccupationFinal[m], children: this.selectedAge1, expanded: true })
       }
     }
-    console.log(this.selectedData)
+    //forming json by selecting 1 and 4 field
+    else if(this.selectedOccupationFinal.length > 0 && this.selectedChild1.length > 0){
+      for (let m = 0; m < this.selectedOccupationFinal.length; m++) {
+        this.selectedData.push({ data: this.selectedOccupationFinal[m], children: this.selectedChild1, expanded: true })
+      }
+    }
+    //forming json by selecting 2 and 4 field
+    else if(this.selectedCategory1.length > 0 && this.selectedChild1.length > 0){
+      for (let i = 0; i < this.selectedCategory1.length; i++) {
+        this.selectedData.push({ data: this.selectedCategory1[i], children: this.selectedChild1, expanded: true })
+      }
+    }else if(this.selectedAge1.length > 0 && this.selectedChild1.length > 0){
+      for (let i = 0; i < this.selectedAge1.length; i++) {
+        this.selectedData.push({ data: this.selectedAge1[i], children: this.selectedChild1, expanded: true })
+      }
+    }
+   console.log(this.selectedData)
   }
 
   getSelectedData() {
